@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Course</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Register Course</h1>
+<h2>Subject List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Subject Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.code }}</td>
+            <td>{{ subject.subject_name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h2>Register New Course</h2>
+<form action="/register_course_confirm" method="POST">
+    <label for="code">Code:</label>
+    <select id="code" name="code" required>
+        {% for subject in subjects %}
+            <option value="{{ subject.code }}">{{ subject.code }} - {{ subject.subject_name }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="name">Name:</label>
+    <input id="name" type="text" name="name" maxlength='20' required><br>
+
+    <label for="price">Price:</label>
+    <input id="price" type="number" name="price" step="100" required><br>
+
+    <button type="submit">Register</button>
+</form>
+<button type="button" onclick="window.location.href='/dashboard';">Cancel</button>
+</body>
+</html>

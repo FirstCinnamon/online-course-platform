@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Info</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>User Info</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Credit</th>
+        <th>Edit Credit</th>
+        <th>Rating</th>
+        <th>Role</th>
+        <th>Password</th>
+        <th>Reset Password</th>
+        <th>Delete User</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.credit }}</td>
+            <td>
+                <form method="POST" action="/edit_credit">
+                    <input type="hidden" name="user_id" value="{{ user.id }}"/>
+                    <input type="number" min="0" name="new_credit"/>
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+            <td>{{ user.rating }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.password }}</td>
+            <td>
+                <form method="POST" action="/reset_password">
+                    <input type="hidden" name="user_id" value="{{ user.id }}"/>
+                    <button type="submit">Reset</button>
+                </form>
+            </td>
+            <td>
+                <form method="POST" action="/delete_user">
+                    <input type="hidden" name="user_id" value="{{ user.id }}"/>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<button onclick="location.href='/dashboard'">Return</button>
+</body>
+</html>

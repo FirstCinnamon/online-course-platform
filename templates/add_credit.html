@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Credit</title>
+</head>
+<body>
+    <h1>User ID: {{ id }}</h1>
+    <p>Credit: {{ credit }}</p>
+    <p>Rating: {{ rating }} <span style="display:inline-block; width:20px; height:20px; border:1px solid black; background-color: rgb({{ rating_color.color_r }}, {{ rating_color.color_g }}, {{ rating_color.color_b }});"></span></p>
+    <h2>Rating Info</h2>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Rating</th>
+                <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Color</th>
+                <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Credits Needed</th>
+                <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Discount(%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rating_info in rating_infos %}
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ rating_info.rating }}</td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: left;"><span style="display:inline-block; width:20px; height:20px; border:1px solid black; background-color: rgb({{ rating_info.color_r }}, {{ rating_info.color_g }}, {{ rating_info.color_b }});"></span></td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ rating_info.condition }} ~</td>
+                    <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ rating_info.discount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Add Credit</h2>
+    <form method="POST" action="/confirm_add_credit">
+        <input type="radio" name="credit_amount" value="10000">10000<br>
+        <input type="radio" name="credit_amount" value="50000">50000<br>
+        <input type="radio" name="credit_amount" value="100000">100000<br>
+        <input type="radio" name="credit_amount" value="500000">500000<br>
+        <button type="submit" style="font-size: 1rem; padding: 10px 20px; cursor: pointer;">Confirm</button>
+    </form>
+    <button onclick="location.href='/dashboard'" style="font-size: 1rem; padding: 10px 20px; cursor: pointer;">Cancel</button>
+</body>
+</html>

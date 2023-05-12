@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Create a New Account</h1>
+<form action="/register" method="POST">
+    <label for="user_id">ID:</label>
+    <input type="text" name="user_id" id="user_id" required>
+    <br><br>
+    <label for="password">PW:</label>
+    <input type="password" name="user_pw" id="user_pw" maxlength="20" required>
+    <br><br>
+    <label for="role">Role:</label>
+    <div>
+        <input type="radio" id="tutee" name="role" value="tutee" checked>
+        <label for="tutee">Tutee</label>
+    </div>
+    <div>
+        <input type="radio" id="tutor" name="role" value="tutor">
+        <label for="tutor">Tutor</label>
+    </div>
+
+    <button type="submit" name="send" value="create account">Sign Up</button>
+</form>
+<button type="button" onclick="window.location.href='/dashboard';">Cancel</button>
+</body>
+</html>

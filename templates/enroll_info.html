@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enroll Info</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enroll Info</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tutee</th>
+                <th>Tutor</th>
+                <th>Code</th>
+                <th>Lecture Name</th>
+                <th>Lecture Price</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for enrollment in enrollments %}
+                <tr>
+                    <td>{{ enrollment.tutee }}</td>
+                    <td>{{ enrollment.tutor }}</td>
+                    <td>{{ enrollment.code }}</td>
+                    <td>{{ enrollment.lecture_name }}</td>
+                    <td>{{ enrollment.lecture_price }}</td>
+                    <td><button onclick="location.href='/delete_enroll/{{ enrollment.tutee }}/{{ enrollment.tutor }}/{{ enrollment.code }}/{{ enrollment.lecture_name }}/{{ enrollment.lecture_price }}'">Delete</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button onclick="location.href='/dashboard'">Return</button>
+</body>
+</html>

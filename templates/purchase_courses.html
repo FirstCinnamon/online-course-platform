@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Courses</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Purchase Courses</h1>
+<h2>Selected Courses</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Tutor</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for selected_course in selected_courses %}
+        <tr class="{% if selected_course.code in purchased_courses %}purchased{% endif %}">
+            <td>{{ selected_course.code }}</td>
+            <td>{{ selected_course.name }}</td>
+            <td>{{ selected_course.price }}</td>
+            <td>{{ selected_course.tutor }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>User Credit: {{ credit }}</p>
+<p>User Rating: {{ rating }}</p>
+<p>Total Price: {{ total_price }}</p>
+<p>Discounted Price: {{ discounted_price }}</p>
+<hr>
+<p>Final Price: {{ final_price }}</p>
+
+
+<form method="POST" action="/confirm_purchase">
+    <input type="hidden" name="final_price" value="{{ final_price }}">
+    {% for selected_course in selected_courses %}
+        <input type="hidden" name="selected_courses" value="{{ selected_course.code }}|{{ selected_course.name }}|{{ selected_course.price }}|{{ selected_course.tutor }}">
+    {% endfor %}
+    <button type="submit" {% if duplicate_flag==1 or teach_myself_flag==1 or not_enough_balance_flag==1%}disabled{% endif %}>Confirm</button>
+</form>
+
+
+
+{% if duplicate_flag == 1 %}
+<p style="color: red;">You have already enrolled in one or more of the selected courses!</p>
+{% endif %}
+
+{% if teach_myself_flag == 1 %}
+<p style="color: red;">You can not purchase a lecture you teach. </p>
+{% endif %}
+
+{% if not_enough_balance_flag == 1 %}
+<p style="color: red;">Insufficient balance. </p>
+{% endif %}
+
+<button onclick="location.href='/dashboard'">Cancel</button>
+
+<style>
+    .purchased {
+        background-color: #ffcccc;
+    }
+</style>
+</body>
+</html>

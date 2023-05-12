@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <style>
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>DB Online Learning Platform</h1>
+<form action="/login" method="post">
+    <label for="user_id">ID:</label>
+    <input id="user_id" type="text" name="id" value="" required><br><br>
+
+    <label for="user_pwd">PW:</label>
+    <input id="user_pwd" type="password" name="password" value="" required><br><br>
+
+    <button type="submit" name="send" value="login">Login</button>
+</form>
+<button type="button" onclick="window.location.href='/register';">Create Account</button>
+<br><br>
+
+</body>
+</html>

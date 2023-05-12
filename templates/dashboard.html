@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button.logout {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+
+        button.add_credit {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        .admin-feature {
+            background-color: #FFC07B;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome, {{ id }}!</h1>
+<p>This is the dashboard for {{ role }}.</p>
+<p>User ID: {{ id }} /
+    <button class="logout" onclick="location.href='/logout'">Logout</button>
+</p>
+{% if id == "admin" %}
+    <button class="admin-feature" onclick="location.href='/user_info'">Users Info</button>
+    <button class="admin-feature" onclick="location.href='/enroll_info'">Enroll Info</button>
+    <p style="color:#FFC07B;">Admin features are highlighted in light orange.</p>
+{% endif %}
+<p>Credit: {{ credit }} /
+    <button class="add_credit" onclick="location.href='/add_credit'">Add</button>
+</p>
+<p>Rating: {{ rating }} <span
+        style="display:inline-block; width:20px; height:20px; border:1px solid black; background-color: rgb({{ rating_color.color_r }}, {{ rating_color.color_g }}, {{ rating_color.color_b }});"></span>
+</p>
+<hr>
+{% if role == 'tutor' %}
+    <h2>Courses You're Teaching</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Course Name</th>
+            <th>Tutee</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for course in my_courses %}
+            <tr>
+                <td>{{ course.subject_name }}</td>
+                <td>{{ course.lecture_name }}</td>
+                <td>{{ course.tutee }}</td>
+                <td>{{ course.lecture_price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+{% endif %}
+<h2>Courses You're Taking</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Subject</th>
+        <th>Course</th>
+        <th>Tutor</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for course in enrolled_courses %}
+        <tr>
+            <td>{{ course.subject }}</td>
+            <td>{{ course.lecture_name }}</td>
+            <td>{{ course.tutor }}</td>
+            <td>{{ course.price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+<h2>Most Popular </h2>
+<table>
+    <thead>
+    <tr>
+        <th>Popular Subject(s)</th>
+        <th>Popular Course(s)</th>
+        <th>Popular Tutor(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ popular_subjects|join(', ') }}</td>
+        <td>{{ popular_lectures|join(', ') }}</td>
+        <td>{{ popular_tutors|join(', ') }}</td>
+    </tr>
+    </tbody>
+</table>
+<hr>
+
+<h2>Available Courses
+    {% if role == 'tutor' %}
+        <button onclick="location.href='/register_course'">Register Course</button>
+    {% endif %}
+</h2>
+<form method="POST" action="/purchase_courses">
+    <table>
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Tutor</th>
+            <th>Select</th>
+            {% if id == "admin" %}
+                <th class="admin-feature">Delete Course</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for lecture in lectures %}
+            <tr>
+                <td>{{ lecture.code }}</td>
+                <td>{{ lecture.name }}</td>
+                <td>{{ lecture.price }}</td>
+                <td>{{ lecture.tutor }}</td>
+                <td><input type="checkbox" name="selected_courses"
+                           value="{{ lecture.code }}|{{ lecture.name }}|{{ lecture.price }}|{{ lecture.tutor }}"></td>
+                {% if id == "admin" %}
+                    <td>
+                        <button type="submit" formaction="/delete_course" name="delete_course_info"
+                                class="admin-feature"
+                                value="{{ lecture.code }}|{{ lecture.name }}|{{ lecture.price }}|{{ lecture.tutor }}">
+                            Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4"></td>
+            <td>
+                <button type="submit">Purchase</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
